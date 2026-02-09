@@ -95,7 +95,6 @@ elif option == "📈 Model Performance":
         y_test = test_df['label_encoded']
         y_pred = model.predict(X_test)
 
-        report = classification_report(y_test, y_pred, output_dict=True)
         acc = accuracy_score(y_test, y_pred)
 
         st.metric("Test Accuracy", f"{acc:.2%}")
@@ -139,4 +138,5 @@ elif option == "📝 Try Prediction":
         st.success(f"Predicted Label: **{label}** {emoji}")
         st.info(f"🌐 Detected Language: **{lang_names.get(lang, 'Unknown')}** (`{lang}`)")
         st.info(f"📘 Translation: _\"{translated}\"_")
+
 
