@@ -71,10 +71,6 @@ if option == "📊 Data Samples":
     train_df = pd.read_csv("train_data.csv")
     st.dataframe(train_df.sample(5))
 
-    st.subheader("Test Data Preview")
-    test_df = pd.read_csv("test_data.csv")
-    st.dataframe(test_df.sample(5))
-
 
 # 2. Preprocessing
 elif option == "🧹 Preprocessing Demo":
@@ -143,3 +139,4 @@ elif option == "📝 Try Prediction":
         st.success(f"Predicted Label: **{label}** {emoji}")
         st.info(f"🌐 Detected Language: **{lang_names.get(lang, 'Unknown')}** (`{lang}`)")
         st.info(f"📘 Translation: _\"{translated}\"_")
+
