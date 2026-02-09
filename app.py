@@ -4,7 +4,9 @@ import pickle
 import re
 import string
 from langdetect import detect
-from googletrans import Translator
+from deep_translator import GoogleTranslator
+from sklearn.metrics import classification_report, accuracy_score
+
 
 # Loading model
 with open("svm_model.pkl", "rb") as f:
@@ -15,6 +17,7 @@ with open("tfidf_vectorizer.pkl", "rb") as f:
 
 with open("label_encoder_label.pkl", "rb") as f:
     label_encoder = pickle.load(f)
+
 
 # Text Cleaning function
 def clean_text(text):
@@ -28,9 +31,11 @@ def clean_text(text):
     text = re.sub(r'\s+', ' ', text).strip()
     return text
 
+
 # App Title
 st.title("Multilingual Offensive Comment Classifier (ML-OCC)🌐🚫💬 ")
 st.markdown("This project detects offensive comments in South Indian Languages 🌍")
+
 
 # Sidebar Navigation
 option = st.sidebar.selectbox("Choose Section", [
@@ -40,8 +45,6 @@ option = st.sidebar.selectbox("Choose Section", [
     "📝 Try Prediction"
 ])
 
-# Translator for (#4prediction)
-translator = Translator()
 
 # Mapping language codes to full names
 lang_names = {
@@ -52,6 +55,7 @@ lang_names = {
     'unknown': 'Unknown'
 }
 
+
 # Emoji for labels
 emoji_map = {
     'not_offensive': "🙂",
@@ -59,6 +63,7 @@ emoji_map = {
     'mixed_feelings': "😐",
     'Unknown': "❓"
 }
+
 
 # 1. Data Samples
 if option == "📊 Data Samples":
@@ -70,6 +75,7 @@ if option == "📊 Data Samples":
     test_df = pd.read_csv("test_data.csv")
     st.dataframe(test_df.sample(5))
 
+
 # 2. Preprocessing
 elif option == "🧹 Preprocessing Demo":
     st.subheader("Text Cleaning Example")
@@ -78,6 +84,7 @@ elif option == "🧹 Preprocessing Demo":
         cleaned = clean_text(sample)
         st.write("✅ Cleaned Text:")
         st.success(cleaned)
+
 
 # 3. Model Performance
 elif option == "📈 Model Performance":
@@ -98,6 +105,7 @@ elif option == "📈 Model Performance":
         st.metric("Test Accuracy", f"{acc:.2%}")
         st.dataframe(pd.DataFrame(report).transpose())
 
+
 # 4. Prediction
 elif option == "📝 Try Prediction":
     st.subheader("📝 Classify a Comment (Multilingual Support)")
@@ -113,7 +121,7 @@ elif option == "📝 Try Prediction":
         # Translate to English (if not already English)
         if lang != 'en' and lang != 'Unknown':
             try:
-                translated = translator.translate(user_input, src=lang, dest='en').text
+                translated = GoogleTranslator(source='auto', target='en').translate(user_input)
             except:
                 translated = "(Translation failed)"
         else:
@@ -135,4 +143,3 @@ elif option == "📝 Try Prediction":
         st.success(f"Predicted Label: **{label}** {emoji}")
         st.info(f"🌐 Detected Language: **{lang_names.get(lang, 'Unknown')}** (`{lang}`)")
         st.info(f"📘 Translation: _\"{translated}\"_")
-
