@@ -1,4 +1,3 @@
-%%writefile app.py
 import streamlit as st
 import pandas as pd
 import pickle
@@ -136,3 +135,4 @@ elif option == "📝 Try Prediction":
         st.success(f"Predicted Label: **{label}** {emoji}")
         st.info(f"🌐 Detected Language: **{lang_names.get(lang, 'Unknown')}** (`{lang}`)")
         st.info(f"📘 Translation: _\"{translated}\"_")
+
