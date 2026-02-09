@@ -98,7 +98,7 @@ elif option == "📈 Model Performance":
         acc = accuracy_score(y_test, y_pred)
 
         st.metric("Test Accuracy", f"{acc:.2%}")
-        st.dataframe(pd.DataFrame(report).transpose())
+        
 
 
 # 4. Prediction
@@ -138,5 +138,6 @@ elif option == "📝 Try Prediction":
         st.success(f"Predicted Label: **{label}** {emoji}")
         st.info(f"🌐 Detected Language: **{lang_names.get(lang, 'Unknown')}** (`{lang}`)")
         st.info(f"📘 Translation: _\"{translated}\"_")
+
 
 
